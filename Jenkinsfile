@@ -2,7 +2,7 @@ pipeline {
   agent none
   stages {
     stage('Test') {
-        agent { label 'standard'}
+        agent { label 'fargate-standard'}
         steps {
             sh 'echo hello from fargate'
         }
