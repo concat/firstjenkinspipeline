@@ -4,7 +4,7 @@ pipeline {
     stage('Test') {
         agent { label 'fargate-standard'}
         steps {
-            sh 'echo hello from fargate'
+            sh 'echo hello from my ecs fargate'
         }
     }
   }
