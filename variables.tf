@@ -4,7 +4,15 @@ variable AWS-account-number {
   default = "366345048365"
 }
 
-variable "s3bucket_appdata" {
+variable vpc-name {
+  default = "DEVVPC"
+}
+
+variable dev-vpc-cidr-block {
+  default = "10.1.0.0/16"
+}
+
+variable s3bucket_appdata {
   type = map
   default = {
     region = "us-east-1"
