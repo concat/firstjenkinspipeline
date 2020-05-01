@@ -1,15 +1,32 @@
 pipeline {
   agent none
   stages {
-    stage('Test') {
+    stage('TerraformPlan') {
       agent { label 'fargate-standard' }
       steps {
             checkout scm
-            sh 'echo success finally greetings from my ecs fargate'
-	          sh 'echo using inbound agent with terraform'
-	          sh 'echo with task role for access to S3'
-            sh 'terraform init -input=false && terraform plan -out=tfplan -input=false && terraform apply -input=false tfplan'
+	          sh 'echo Using inbound agent image including terraform and task role for needed AWS services'
+            sh 'terraform init -input=false && terraform plan -out=tfplan -input=false'
       }
     }
+
+    stage('NotifyForApproval') {
+      agent { label 'fargate-standard' }
+      steps {  
+          slackSend channel: 'ias', color: '#1e602f', message: "Please visit the Jenkins server to approve the Terraform plan"
+      }
+    }
+
+    stage('TerraformApply') {
+      input {
+        message "Apply the terraform plan?"
+        ok "Apply It"
+      }      
+      agent { label 'fargate-standard' }
+        steps {
+          sh 'terraform apply -input=false tfplan'
+          slackSend channel: 'ias', color: '#1e602f', message: "Terraform plan has been applied"
+      } 
+    } 
   }
 }
