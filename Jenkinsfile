@@ -22,7 +22,9 @@ pipeline {
         message "Apply the terraform plan?"
         ok "Apply It"
       }
-      steps {}
+      steps {
+        sh 'echo Approval given'
+      }
     }
 
     stage('TerraformApply') {
