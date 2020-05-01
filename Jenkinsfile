@@ -12,7 +12,6 @@ pipeline {
     }
 
     stage('NotifyForApproval') {
-      agent { label 'fargate-standard' }
       steps {  
           slackSend channel: 'ias', color: '#1e602f', message: "Please visit the Jenkins server to approve the Terraform plan"
       }
@@ -23,7 +22,6 @@ pipeline {
         message "Apply the terraform plan?"
         ok "Apply It"
       }      
-      agent { label 'fargate-standard' }
         steps {
           unstash 'myTFPlan'
           sh 'terraform apply -input=false tfplan'
