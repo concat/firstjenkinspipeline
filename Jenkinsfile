@@ -1,13 +1,13 @@
 pipeline {
-  agent none
+  agent { label 'fargate-standard'}
   stages {
     stage('TerraformPlan') {
-      agent { label 'fargate-standard' }
+//      agent { label 'fargate-standard' }
       steps {
             checkout scm
 	          sh 'echo Using inbound agent image including terraform and task role for needed AWS services'
             sh 'terraform init -input=false && terraform plan -out=tfplan -input=false'
-            stash name: 'myTFPlan', includes: 'tfplan'
+//            stash name: 'myTFPlan', includes: 'tfplan'
       }
     }
 
@@ -28,10 +28,10 @@ pipeline {
     }
 
     stage('TerraformApply') {
-      agent { label 'fargate-standard' }       
+ //     agent { label 'fargate-standard' }       
       steps {
-          unstash 'myTFPlan'
-          sh 'terraform init -input=false && terraform apply -input=false tfplan'
+ //         unstash 'myTFPlan'
+          sh 'terraform apply -input=false tfplan'
           slackSend channel: 'ias', color: '#1e602f', message: "Terraform plan has been applied"
       } 
     }
