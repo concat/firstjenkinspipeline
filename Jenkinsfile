@@ -17,16 +17,20 @@ pipeline {
       }
     }
 
-    stage('TerraformApply') {
+    stage('TerraformApprove') {
       input {
         message "Apply the terraform plan?"
         ok "Apply It"
-      }      
+      }
+    }
+
+    stage('TerraformApply') {
         steps {
           unstash 'myTFPlan'
           sh 'terraform apply -input=false tfplan'
           slackSend channel: 'ias', color: '#1e602f', message: "Terraform plan has been applied"
       } 
-    } 
+    }
+     
   }
 }
