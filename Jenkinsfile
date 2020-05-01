@@ -7,6 +7,7 @@ pipeline {
             checkout scm
 	          sh 'echo Using inbound agent image including terraform and task role for needed AWS services'
             sh 'terraform init -input=false && terraform plan -out=tfplan -input=false'
+            stash name: 'myTFPlan', includes: 'tfplan'
       }
     }
 
@@ -24,6 +25,7 @@ pipeline {
       }      
       agent { label 'fargate-standard' }
         steps {
+          unstash 'myTFPlan'
           sh 'terraform apply -input=false tfplan'
           slackSend channel: 'ias', color: '#1e602f', message: "Terraform plan has been applied"
       } 
