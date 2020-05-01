@@ -22,6 +22,7 @@ pipeline {
         message "Apply the terraform plan?"
         ok "Apply It"
       }
+      steps {}
     }
 
     stage('TerraformApply') {
@@ -31,6 +32,6 @@ pipeline {
           slackSend channel: 'ias', color: '#1e602f', message: "Terraform plan has been applied"
       } 
     }
-     
+
   }
 }
