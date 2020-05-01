@@ -28,9 +28,10 @@ pipeline {
     }
 
     stage('TerraformApply') {
-        steps {
+      agent { label 'fargate-standard' }       
+      steps {
           unstash 'myTFPlan'
-          sh 'terraform apply -input=false tfplan'
+          sh 'terraform init -input=false && terraform apply -input=false tfplan'
           slackSend channel: 'ias', color: '#1e602f', message: "Terraform plan has been applied"
       } 
     }
