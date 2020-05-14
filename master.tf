@@ -6,7 +6,7 @@ module "vpc" {
 
 module "qavpc" {
   source = "./vpc"
-  myVPCName = var.vpc-name2
+  myVPCName = var.qa-vpc-name
   myVPCCIDRBlock = var.qa-vpc-cidr-block
 }
 
