@@ -2,7 +2,6 @@ pipeline {
   agent { label 'fargate-standard'}
   stages {
     stage('TerraformPlan') {
-//      agent { label 'fargate-standard' }
       steps {
             checkout scm
 	          sh 'echo Using inbound agent image including terraform and task role for needed AWS services'
