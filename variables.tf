@@ -12,6 +12,14 @@ variable dev-vpc-cidr-block {
   default = "10.1.0.0/16"
 }
 
+variable qa-vpc-name {
+  default = "QAVPC"
+}
+
+variable qa-vpc-cidr-block {
+  default = "10.2.0.0/16"
+}
+
 variable s3bucket_appdata {
   type = map
   default = {
