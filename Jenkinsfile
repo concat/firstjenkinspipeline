@@ -1,12 +1,24 @@
 pipeline {
   agent { label 'fargate-standard'}
+  triggers {
+    GenericTrigger(
+      genericVariables: [
+      [key: 'ref', value: '$.ref']
+      ],
+
+      causeString: 'Triggered on $ref',
+      token: 'mySecretToken',
+      printContributedVariables: true,
+      printPostContent: true,
+      silentResponse: false
+      )
+  }
   stages {
     stage('TerraformPlan') {
       steps {
             checkout scm
 	          sh 'echo Using inbound agent image including terraform and task role for needed AWS services'
             sh 'terraform init -input=false && terraform plan -out=tfplan -input=false'
-//            stash name: 'myTFPlan', includes: 'tfplan'
       }
     }
 
@@ -26,10 +38,8 @@ pipeline {
       }
     }
 
-    stage('TerraformApply') {
- //     agent { label 'fargate-standard' }       
+    stage('TerraformApply') {       
       steps {
- //         unstash 'myTFPlan'
           sh 'terraform apply -input=false tfplan'
           slackSend channel: 'ias', color: '#1e602f', message: "Terraform plan has been applied"
       } 
