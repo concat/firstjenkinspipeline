@@ -2,6 +2,7 @@ pipeline {
   agent { label 'fargate-standard'}
   triggers {
     GenericTrigger(
+      token: 'mySecretToken',
       printContributedVariables: true,
       printPostContent: true,
       silentResponse: false
