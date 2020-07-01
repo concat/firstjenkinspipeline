@@ -2,6 +2,10 @@ pipeline {
   agent { label 'fargate-standard'}
   triggers {
     GenericTrigger(
+      genericVariables: [
+      [ key: 'ref', value: '$.ref']
+      ]
+      causeString: 'Invoked from $ref'
       token: 'mySecretToken',
       printContributedVariables: true,
       printPostContent: true,
