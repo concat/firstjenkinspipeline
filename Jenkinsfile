@@ -4,8 +4,8 @@ pipeline {
     GenericTrigger(
       genericVariables: [
       [ key: 'ref', value: '$.ref']
-      ]
-      causeString: 'Invoked from $ref'
+      ],
+      causeString: 'Invoked from $ref',
       token: 'mySecretToken',
       printContributedVariables: true,
       printPostContent: true,
